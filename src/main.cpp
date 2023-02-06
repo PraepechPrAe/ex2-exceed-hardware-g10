@@ -6,19 +6,18 @@
 #include <Bounce2.h>
 #include "traffic.h"
 
-// #define red <led red pin>
-// #define yellow <led yellow pin>
-// #define green <led green pin>
-// #define ldr <ldr pin>
-// #define button <button pin>
+#define red 26
+#define yellow 25
+#define green 33
+#define ldr 34
+#define button 27
 
-// #define light <แสดงมันมืด มีค่าเท่าไหร่>
+#define light 1700
 
-// int state = 1;
-// int count = 0;
-// Bounce debouncer = Bounce();
+int state = 1;
+int count = 0;
+Bounce debouncer = Bounce();
 
-//void Connect_Wifi();
 void Connect_Wifi()
 {
   const char *ssid = "Prae";
@@ -38,36 +37,53 @@ void Connect_Wifi()
 void setup()
 {
   Serial.begin(115200);
-  // pinMode(red, OUTPUT);
-  // pinMode(yellow, OUTPUT);
-  // pinMode(green, OUTPUT);
-  // pinMode(ldr, INPUT);
-  // debouncer.attach(button, INPUT_PULLUP);
-  // debouncer.interval(25);
+  pinMode(red, OUTPUT);
+  pinMode(yellow, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(ldr, INPUT);
+  debouncer.attach(button, INPUT_PULLUP);
+  debouncer.interval(25);
   Connect_Wifi();
-
+  
   delay(200);
   start LED with GREEN and POST to database
   digitalWrite(green, HIGH);
-  POST_traffic("green");
-  GET_traffic();
 }
 
 void loop()
 {
-  *** write your code here ***
-  Your can change everything that you want
+ 
+    debouncer.update();
   if (state == 1)
   {
-    // while led GREEN
+    POST_traffic("green");
+    GET_traffic();
+    if ( debouncer.fell() )
+    {
+      digitalWrite(green, LOW);
+      state = 2;
+    }
   }
   else if (state == 2)
   {
-    // while led YELLOW
+      POST_traffic("yellow");
+      digitalWrite(yellow,HIGH);
+      delay(8000);
+      state = 3;
+
   }
   else if (state == 3)
   {
-    // while led RED
+    POST_traffic("red");
+    GET_traffic();
+    digitalWrite(yellow,LOW);
+    digitalWrite(red,HIGH);
+    if (analogRead(ldr)==light)
+    {
+      digitalWrite(red,LOW);
+      digitalWrite(green, HIGH);
+      state = 1;
+    }
   }
 }
 
