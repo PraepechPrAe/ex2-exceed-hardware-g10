@@ -74,16 +74,20 @@ void loop()
       state = 3;
 
   }
-  else if (state == 3)
+    else if (state == 3)
   {
-    
     digitalWrite(yellow,LOW);
     digitalWrite(red,HIGH);
     POST_traffic("red");
     GET_traffic();
+    state = 4;
+
+  }
+  else if (state == 4)
+  {
+    delay(5000);
     if (analogRead(ldr)<=light)
     {
-      delay(5000);
       digitalWrite(red,LOW);
       digitalWrite(green, HIGH);
       state = 0;
