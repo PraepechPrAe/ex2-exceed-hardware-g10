@@ -55,8 +55,6 @@ void POST_traffic(String led)
   int httpResponseCode = http.POST(json);
   if (httpResponseCode == 200)
   {
-    Serial.print("Done");
-    Serial.println();
     Serial.println(http.getString());
   }
   else
