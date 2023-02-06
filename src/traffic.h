@@ -15,18 +15,18 @@ void GET_traffic()
   HTTPClient http;
   const String url = baseUrl + "/all_traffic";
   http.begin(url);
-
-  Serial.println("Nearby traffic");
   int httpResponseCode = http.GET();
   if (httpResponseCode == 200)
   {
     String payload = http.getString();
     deserializeJson(doc, payload);
     Serial.println("Current traffic");
+    Serial.print("  Point 10 : ");
     Serial.println((const char*)doc["all_traffic"][9]["traffic"]);
-    Serial.print("Point 9");
+    Serial.println("Nearby traffic");
+    Serial.print("  Point 9 : ");
     Serial.println((const char*)doc["all_traffic"][8]["traffic"]);
-    Serial.print("Point 11");
+    Serial.print("  Point 11 : ");
     Serial.println((const char*)doc["all_traffic"][10]["traffic"]);
   }
   else
