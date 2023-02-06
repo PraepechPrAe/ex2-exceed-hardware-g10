@@ -10,7 +10,7 @@
 #define ldr 34
 #define button 27
 
-#define light 1700
+#define light 2000
 
 int state = 0;
 int count = 0;
@@ -73,6 +73,7 @@ void loop()
       state = 3;
 
   }
+  
   else if (state == 3)
   { 
     digitalWrite(yellow,LOW);
