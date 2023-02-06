@@ -79,9 +79,10 @@ void loop()
     digitalWrite(red,HIGH);
     POST_traffic("red");
     GET_traffic();
+    delay(5000);
     if (analogRead(ldr)<=light)
     {
-      delay(5000);
+      
       digitalWrite(red,LOW);
       digitalWrite(green, HIGH);
       state = 0;
