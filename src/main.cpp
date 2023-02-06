@@ -1,5 +1,3 @@
-// If you want to run in WOKWi
-// change pin and wifi
 #include <Arduino.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
@@ -44,13 +42,13 @@ void setup()
   debouncer.attach(button, INPUT_PULLUP);
   debouncer.interval(25);
   Connect_Wifi();
-  
   delay(200);
   digitalWrite(green, HIGH);
 }
 
 void loop()
 {
+
   debouncer.update();
   if (state ==0){
     POST_traffic("green");
@@ -69,13 +67,14 @@ void loop()
   }
   else if (state == 2)
   {
+      digitalWrite(yellow,HIGH);
       POST_traffic("yellow");
       delay(8000);
       state = 3;
 
   }
-    else if (state == 3)
-  {
+  else if (state == 3)
+  { 
     digitalWrite(yellow,LOW);
     digitalWrite(red,HIGH);
     POST_traffic("red");
@@ -94,4 +93,3 @@ void loop()
     }
   }
 }
-
